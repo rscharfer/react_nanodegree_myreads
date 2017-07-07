@@ -87,8 +87,9 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
+
+      <Route path="/search"  render={()=>(
+         <div className="search-books">
             <div className="search-books-bar">
               <Link className="close-search" to="/">Close</Link>
               <div className="search-books-input-wrapper">
@@ -99,7 +100,11 @@ class BooksApp extends React.Component {
               <ol className="books-grid"></ol>
             </div>
           </div>
-        ) : (
+        )} 
+
+        />
+
+        <Route path="/" exact render={()=>(
           <div className="list-books">
             <TitleBar/>
             <div className="list-books-content">
@@ -113,7 +118,7 @@ class BooksApp extends React.Component {
               <Link to="/search">Add a book</Link>
             </div>
           </div>
-        )}
+          )}/>
       </div>
     )
   }
