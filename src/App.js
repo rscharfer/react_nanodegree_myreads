@@ -4,8 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 
-console.log(`here is Link ${Link}`);
-console.log(`here is Router ${Router}`);
+
 class Book extends React.Component {
 
   render() {
@@ -45,8 +44,8 @@ class BookShelf extends React.Component {
             <h2 className="bookshelf-title">{this.props.label}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  {this.props.books.map(book=>{ 
-                    return <li><Book title={book.title} author={book.author} url={book.url}/></li>
+                  {this.props.books.map((book,index)=>{ 
+                    return <li key={index}><Book title={book.title} author={book.author} url={book.url}/></li>
                   })}
                   </ol>
               </div>
