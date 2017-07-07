@@ -14,15 +14,8 @@ class BooksApp extends React.Component {
 
       <Route path="/search"  render={()=>(
          <div className="search-books">
-            <div className="search-books-bar">
-              <Link className="close-search" to="/">Close</Link>
-              <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author"/>
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
+            <SearchBar/>
+            <SearchResults/>
           </div>
         )} 
 
@@ -103,6 +96,37 @@ class BookShelfChanger extends React.Component {
                 <option value="none">None</option>
                </select>
             </div> 
+  }
+}
+
+class SearchBar extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+
+    return <div className="search-books-bar">
+              <Link className="close-search" to="/">Close</Link>
+              <div className="search-books-input-wrapper">
+                <input type="text" placeholder="Search by title or author"/>
+              </div>
+            </div>
+  }
+}
+
+class SearchResults extends React.Component {
+  
+  constructor(props){
+    super(props);
+  }
+
+
+  render(){
+    return <div className="search-books-results">
+              <ol className="books-grid"></ol>
+            </div>
   }
 }
 
