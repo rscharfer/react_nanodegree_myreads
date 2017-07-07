@@ -5,84 +5,8 @@ import './App.css'
 
 
 
-class Book extends React.Component {
-
-  render() {
-
-    return  <div className="book">
-                <div className="book-top">
-                  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})`}}></div>
-                    <BookShelfChanger/>
-                  </div>
-                <div className="book-title">{this.props.title}</div>
-                <div className="book-authors">{this.props.author}</div>
-              </div>      
-  }
-}
-
-class BookShelfChanger extends React.Component {
-
-  render () {
-
-    return  <div className="book-shelf-changer">
-              <select>
-                <option value="none" disabled>Move to...</option>
-                <option value="currentlyReading">Currently Reading</option>
-                <option value="wantToRead">Want to Read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
-               </select>
-            </div> 
-  }
-}
-
-class BookShelf extends React.Component {
-
-  render(){
-
-    return <div className="bookshelf">
-            <h2 className="bookshelf-title">{this.props.label}</h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {this.props.books.map((book,index)=>{ 
-                    return <li key={index}><Book title={book.title} author={book.author} url={book.url}/></li>
-                  })}
-                  </ol>
-              </div>
-            </div>
-  }
-}
-
-class TitleBar extends React.Component {
-
-  render(){
-
-    return <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
 class BooksApp extends React.Component {
-  state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: true
-  }
+ 
 
   render() {
     return (
@@ -123,5 +47,79 @@ class BooksApp extends React.Component {
     )
   }
 }
+
+class TitleBar extends React.Component {
+
+  render(){
+
+    return <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
+  }
+}
+
+class BookShelf extends React.Component {
+
+  render(){
+
+    return <div className="bookshelf">
+            <h2 className="bookshelf-title">{this.props.label}</h2>
+              <div className="bookshelf-books">
+                <ol className="books-grid">
+                  {this.props.books.map((book,index)=>{ 
+                    return <li key={index}><Book title={book.title} author={book.author} url={book.url}/></li>
+                  })}
+                  </ol>
+              </div>
+            </div>
+  }
+}
+
+class Book extends React.Component {
+
+  render() {
+
+    return  <div className="book">
+                <div className="book-top">
+                  <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})`}}></div>
+                    <BookShelfChanger/>
+                  </div>
+                <div className="book-title">{this.props.title}</div>
+                <div className="book-authors">{this.props.author}</div>
+              </div>      
+  }
+}
+
+class BookShelfChanger extends React.Component {
+
+  render () {
+
+    return  <div className="book-shelf-changer">
+              <select>
+                <option value="none" disabled>Move to...</option>
+                <option value="currentlyReading">Currently Reading</option>
+                <option value="wantToRead">Want to Read</option>
+                <option value="read">Read</option>
+                <option value="none">None</option>
+               </select>
+            </div> 
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export default BooksApp
