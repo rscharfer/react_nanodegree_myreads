@@ -1,25 +1,18 @@
 import React from 'react'
+import { Component } from 'react'
 import {Link, Route} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
  
-
   render() {
     return (
       <div className="app">
 
-      <Route path="/search"  render={()=>(
-         <div className="search-books">
-            <SearchBar/>
-            <SearchResults/>
-          </div>
-        )} 
-
-        />
+      <Route path="/search"  component={SearchPage}/>
 
         <Route path="/" exact render={()=>(
           <div className="list-books">
@@ -41,7 +34,7 @@ class BooksApp extends React.Component {
   }
 }
 
-class TitleBar extends React.Component {
+class TitleBar extends Component {
 
   render(){
 
@@ -51,7 +44,7 @@ class TitleBar extends React.Component {
   }
 }
 
-class BookShelf extends React.Component {
+class BookShelf extends Component {
 
   render(){
 
@@ -68,7 +61,7 @@ class BookShelf extends React.Component {
   }
 }
 
-class Book extends React.Component {
+class Book extends Component {
 
   render() {
 
@@ -83,7 +76,7 @@ class Book extends React.Component {
   }
 }
 
-class BookShelfChanger extends React.Component {
+class BookShelfChanger extends Component {
 
   render () {
 
@@ -99,7 +92,27 @@ class BookShelfChanger extends React.Component {
   }
 }
 
-class SearchBar extends React.Component {
+
+class SearchPage extends Component{
+  constructor(props){
+    super(props)
+    this.state = {books:[]};
+  }
+
+  componentDidMount(){
+    BooksAPI.search('android',10).then((books)=>this.setState({books}))
+    
+  }
+
+  render(){
+    return   <div className="search-books">
+            <SearchBar/>
+            <SearchResults books={this.state.books}/>
+          </div>
+  }
+}
+
+class SearchBar extends Component {
 
   constructor(props){
     super(props);
@@ -116,7 +129,7 @@ class SearchBar extends React.Component {
   }
 }
 
-class SearchResults extends React.Component {
+class SearchResults extends Component {
   
   constructor(props){
     super(props);
@@ -125,24 +138,14 @@ class SearchResults extends React.Component {
 
   render(){
     return <div className="search-books-results">
-              <ol className="books-grid"></ol>
+              <ol className="books-grid">
+              {this.props.books.map((book,index)=>{
+                    console.log(book.imageLinks.thumbnail); 
+                    return <li key={index}><Book title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
+                  })}</ol>
             </div>
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
