@@ -53,7 +53,7 @@ class BookShelf extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {this.props.books.map((book,index)=>{ 
-                    return <li key={index}><Book title={book.title} author={book.author} url={book.url}/></li>
+                    return <li key={index}><Book label={this.props.label} title={book.title} author={book.author} url={book.url}/></li>
                   })}
                   </ol>
               </div>
@@ -63,12 +63,15 @@ class BookShelf extends Component {
 
 class Book extends Component {
 
+
+  
+
   render() {
 
     return  <div className="book">
                 <div className="book-top">
                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})`}}></div>
-                    <BookShelfChanger/>
+                    <BookShelfChanger label={this.props.label}/>
                   </div>
                 <div className="book-title">{this.props.title}</div>
                 <div className="book-authors">{this.props.author}</div>
@@ -78,10 +81,39 @@ class Book extends Component {
 
 class BookShelfChanger extends Component {
 
+  constructor(props){
+
+
+
+    super(props);
+    this.state = {
+      value:this.getOptionValue(this.props.label)
+      
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.getOptionValue = this.getOptionValue.bind(this);
+
+  }
+
+  handleChange(event) {
+      this.setState({value:event.target.value});
+      
+    }
+
+  getOptionValue(input) {
+
+    switch(input){
+      case "Currently Reading" : return 'currentlyReading'; break;
+      case "Want to Read": return 'wantToRead'; break;
+      case "Read": return 'read'; break;
+
+    }
+  }
+
   render () {
 
     return  <div className="book-shelf-changer">
-              <select>
+              <select value={this.state.value} onChange={this.handleChange}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
