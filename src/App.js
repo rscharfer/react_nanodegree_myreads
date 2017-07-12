@@ -200,7 +200,7 @@ class SearchBar extends Component {
     return <div className="search-books-bar">
               <Link className="close-search" to="/">Close</Link>
               <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author"/>
+                <SearchInput/>
               </div>
             </div>
   }
@@ -223,6 +223,16 @@ class SearchResults extends Component {
   }
 }
 
+
+class SearchInput extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return <input type="text" placeholder="Search by title or author"/> 
+  }
+}
 
 
 export default BooksApp
