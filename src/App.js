@@ -194,15 +194,19 @@ class SearchPage extends Component{
       this.setState({books:books})
     })
     }
+
+    else this.setState({books:[]})
     
   }
 
   componentDidMount(){
-  	console.log('search page mounted')
-    BooksAPI.search(this.state.searchValue,10).then((books)=>{
-      
-      this.setState({books})
+  	
+  	if (this.state.searchValue){
+		BooksAPI.search(this.state.searchValue,10).then((books)=>{
+      	this.setState({books})
     })
+  	}
+   
     
   }
 
@@ -242,7 +246,7 @@ class SearchResults extends Component {
   render(){
     return <div className="search-books-results">
               <ol className="books-grid">
-              {this.props.books&&this.props.books.map((book,index)=>{
+              {Array.isArray(this.props.books)&&this.props.books.map((book,index)=>{
                     if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
