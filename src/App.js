@@ -174,7 +174,10 @@ class SearchPage extends Component{
   }
 
   componentDidMount(){
-    BooksAPI.search('android',10).then((books)=>this.setState({books}))
+    BooksAPI.search('b',10).then((books)=>{
+      console.log(books)
+      this.setState({books})
+    })
     
   }
 
@@ -214,7 +217,7 @@ class SearchResults extends Component {
     return <div className="search-books-results">
               <ol className="books-grid">
               {this.props.books.map((book,index)=>{
-                    return <li key={index}><Book title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
+                    if (book.imageLinks) return <li key={index}><Book title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
   }
