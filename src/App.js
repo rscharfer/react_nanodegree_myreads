@@ -170,7 +170,21 @@ class BookShelfChanger extends Component {
 class SearchPage extends Component{
   constructor(props){
     super(props)
-    this.state = {books:[]};
+    this.state = {books:[], searchValue:'test'};
+    this.updateResults = this.updateResults.bind(this);
+  }
+
+  updateResults(e){
+    const newString = e.target.value;
+
+    if (newString){
+      
+      BooksAPI.search(newString,10).then((books)=>{
+
+      this.setState({books:books})
+    })
+    }
+    
   }
 
   componentDidMount(){
@@ -183,7 +197,7 @@ class SearchPage extends Component{
 
   render(){
     return   <div className="search-books">
-            <SearchBar/>
+            <SearchBar updateResults = {this.updateResults}/>
             <SearchResults books={this.state.books}/>
           </div>
   }
@@ -197,10 +211,11 @@ class SearchBar extends Component {
 
   render(){
 
+  
     return <div className="search-books-bar">
               <Link className="close-search" to="/">Close</Link>
               <div className="search-books-input-wrapper">
-                <SearchInput/>
+                <SearchInput updateResults={this.props.updateResults}/>
               </div>
             </div>
   }
@@ -232,11 +247,13 @@ class SearchInput extends Component {
   }
 
   render(){
+    
     return <input type="text" onChange={this.handleChange} value={this.state.value} placeholder="Search by title or author"/> 
   }
 
   handleChange(e){
    this.setState({value:e.target.value});
+   this.props.updateResults(e);
   }
 
 
