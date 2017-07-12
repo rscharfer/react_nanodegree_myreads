@@ -41,7 +41,14 @@ class BooksApp extends Component {
     return (
       <div className="app">
 
-      <Route path="/search"  component={SearchPage}/>
+      <Route path="/search" render = {
+        ()=>(<SearchPage refreshBooks={this.refreshBooks}/>)
+
+    }
+
+
+
+      />
 
         <Route path="/" exact render={()=>(
           <div className="list-books">
@@ -104,6 +111,7 @@ class Book extends Component {
 
     this.setState({shelf:newShelf});
     BooksAPI.update({id:this.props.id},newShelf).then((data)=>this.props.refreshBooks());
+
   }
 
 
@@ -139,6 +147,7 @@ class BookShelfChanger extends Component {
 
   handleChange(event) {
       this.props.changeShelf(event.target.value);
+
       
     }
 
@@ -178,7 +187,7 @@ class SearchPage extends Component{
     const newString = e.target.value;
 
     if (newString){
-      
+
       BooksAPI.search(newString,10).then((books)=>{
 
       this.setState({books:books})
@@ -198,7 +207,7 @@ class SearchPage extends Component{
   render(){
     return   <div className="search-books">
             <SearchBar updateResults = {this.updateResults}/>
-            <SearchResults books={this.state.books}/>
+            <SearchResults books={this.state.books} refreshBooks={this.props.refreshBooks}/>
           </div>
   }
 }
@@ -232,7 +241,7 @@ class SearchResults extends Component {
     return <div className="search-books-results">
               <ol className="books-grid">
               {this.props.books.map((book,index)=>{
-                    if (book.imageLinks) return <li key={index}><Book title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
+                    if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
   }
