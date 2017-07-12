@@ -179,7 +179,7 @@ class BookShelfChanger extends Component {
 class SearchPage extends Component{
   constructor(props){
     super(props)
-    this.state = {books:[], searchValue:'test'};
+    this.state = {books:[], searchValue:'Singh'};
     this.updateResults = this.updateResults.bind(this);
   }
 
@@ -197,8 +197,8 @@ class SearchPage extends Component{
   }
 
   componentDidMount(){
-    BooksAPI.search('b',10).then((books)=>{
-      console.log(books)
+    BooksAPI.search(this.state.searchValue,10).then((books)=>{
+      
       this.setState({books})
     })
     
