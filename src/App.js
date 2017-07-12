@@ -10,6 +10,8 @@ class BooksApp extends Component {
  
   constructor(props){
 
+  	// every BooksApp instance has a state defining the books on each shelf
+  	// every BooksApp also has a refresh books function
     super(props);
     this.state = {wantToReadBooks:[],readBooks:[],currentlyReadingBooks:[]};
     this.refreshBooks = this.refreshBooks.bind(this);
@@ -20,10 +22,13 @@ class BooksApp extends Component {
 
   componentDidMount(){
 
+  	  // the refresh books function is called for the first time when the BooksApp is mounted
+  	  console.log('BooksApp is mounted')
       this.refreshBooks();
   }
 
 
+  // the refresh books function makes an BooksAPI call and resets the state
   refreshBooks(){
 
     BooksAPI.getAll().then(books=>{
@@ -38,17 +43,12 @@ class BooksApp extends Component {
 
   render() {
 
+  	console.log('Books App is rendered')
     return (
       <div className="app">
 
-      <Route path="/search" render = {
-        ()=>(<SearchPage refreshBooks={this.refreshBooks}/>)
 
-    }
-
-
-
-      />
+      <Route path="/search" render = {()=>(<SearchPage refreshBooks={this.refreshBooks}/>)}/>
 
         <Route path="/" exact render={()=>(
           <div className="list-books">
@@ -179,7 +179,7 @@ class BookShelfChanger extends Component {
 class SearchPage extends Component{
   constructor(props){
     super(props)
-    this.state = {books:[], searchValue:'Singh'};
+    this.state = {books:[], searchValue:''};
     this.updateResults = this.updateResults.bind(this);
   }
 
