@@ -73,6 +73,8 @@ class TitleBar extends Component {
   }
 }
 
+
+
 class BookShelf extends Component {
 
   render(){
@@ -92,6 +94,17 @@ class BookShelf extends Component {
 
 class Book extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {shelf:''};
+    this.changeShelf = this.changeShelf.bind(this)
+  }
+
+  changeShelf(newShelf){
+
+    this.setState({shelf:newShelf})
+  }
+
 
   
 
@@ -100,7 +113,7 @@ class Book extends Component {
     return  <div className="book">
                 <div className="book-top">
                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${this.props.url})`}}></div>
-                    <BookShelfChanger label={this.props.label}/>
+                    <BookShelfChanger label={this.props.label} changeShelf={this.changeShelf}/>
                   </div>
                 <div className="book-title">{this.props.title}</div>
                 {this.props.author.map(author=><div key={author} className="book-authors">{author}</div>)}
@@ -115,17 +128,13 @@ class BookShelfChanger extends Component {
 
 
     super(props);
-    this.state = {
-      value:this.getOptionValue(this.props.label)
-      
-    }
     this.handleChange = this.handleChange.bind(this);
     this.getOptionValue = this.getOptionValue.bind(this);
 
   }
 
   handleChange(event) {
-      this.setState({value:event.target.value});
+      this.props.changeShelf(event.target.value);
       
     }
 
@@ -142,7 +151,7 @@ class BookShelfChanger extends Component {
   render () {
 
     return  <div className="book-shelf-changer">
-              <select value={this.state.value} onChange={this.handleChange}>
+              <select value={this.getOptionValue(this.props.label)} onChange={this.handleChange}>
                 <option value="none" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
