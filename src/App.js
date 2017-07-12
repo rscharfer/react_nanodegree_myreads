@@ -157,6 +157,10 @@ class BookShelfChanger extends Component {
       case "Currently Reading" : return 'currentlyReading'; break;
       case "Want to Read": return 'wantToRead'; break;
       case "Read": return 'read'; break;
+      case "currentlyReading" : return 'currentlyReading'; break;
+      case "wantToRead": return 'wantToRead'; break;
+      case "read": return 'read'; break;
+      case "none": return 'none'; break;
 
     }
   }
@@ -247,7 +251,7 @@ class SearchResults extends Component {
     return <div className="search-books-results">
               <ol className="books-grid">
               {Array.isArray(this.props.books)&&this.props.books.map((book,index)=>{
-                    if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} url={book.imageLinks.thumbnail}/></li>
+                    if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} label={book.shelf} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
   }
