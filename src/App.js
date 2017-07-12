@@ -227,11 +227,19 @@ class SearchResults extends Component {
 class SearchInput extends Component {
   constructor(props){
     super(props);
+    this.state = {value:''}
+    this.handleChange = this.handleChange.bind(this);
   }
 
   render(){
-    return <input type="text" placeholder="Search by title or author"/> 
+    return <input type="text" onChange={this.handleChange} value={this.state.value} placeholder="Search by title or author"/> 
   }
+
+  handleChange(e){
+   this.setState({value:e.target.value});
+  }
+
+
 }
 
 
