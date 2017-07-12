@@ -117,7 +117,10 @@ class Book extends Component {
                     <BookShelfChanger label={this.props.label} changeShelf={this.changeShelf}/>
                   </div>
                 <div className="book-title">{this.props.title}</div>
-                {this.props.author.map(author=><div key={author} className="book-authors">{author}</div>)}
+                {
+                  this.props.author?this.props.author.map(author=><div key={author} className="book-authors">{author}</div>):''
+
+                }
               </div>      
   }
 }
