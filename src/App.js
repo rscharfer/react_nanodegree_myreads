@@ -48,9 +48,9 @@ class BooksApp extends Component {
             <TitleBar/>
             <div className="list-books-content">
               <div>
-                <BookShelf label="Currently Reading" books={this.state.currentlyReadingBooks}/>
-                <BookShelf label="Want to Read" books={this.state.wantToReadBooks}/>
-                <BookShelf label="Read" books={this.state.readBooks}/>
+                <BookShelf label="Currently Reading" books={this.state.currentlyReadingBooks} refreshBooks={this.refreshBooks}/>
+                <BookShelf label="Want to Read" books={this.state.wantToReadBooks} refreshBooks={this.refreshBooks}/>
+                <BookShelf label="Read" books={this.state.readBooks} refreshBooks={this.refreshBooks}/>
               </div>
             </div>
             <div className="open-search">
@@ -84,7 +84,7 @@ class BookShelf extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {this.props.books.map((book,index)=>{ 
-                    return <li key={index}><Book label={this.props.label} title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
+                    return <li key={book.id}><Book id={book.id} refreshBooks = {this.props.refreshBooks} label={this.props.label} title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}
                   </ol>
               </div>
@@ -102,7 +102,8 @@ class Book extends Component {
 
   changeShelf(newShelf){
 
-    this.setState({shelf:newShelf})
+    this.setState({shelf:newShelf});
+    BooksAPI.update({id:this.props.id},newShelf).then((data)=>this.props.refreshBooks());
   }
 
 
