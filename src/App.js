@@ -33,7 +33,6 @@ class BooksApp extends Component {
         readBooks : books.filter(book=>book.shelf==="read"),
         currentlyReadingBooks : books.filter(book=>book.shelf==="currentlyReading")
       });
-      console.log(this.state.wantToReadBooks);
     });
   }
 
@@ -83,7 +82,7 @@ class BookShelf extends Component {
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {this.props.books.map((book,index)=>{ 
-                    return <li key={index}><Book label={this.props.label} title={book.title} author={book.authors[0]} url={book.imageLinks.thumbnail}/></li>
+                    return <li key={index}><Book label={this.props.label} title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}
                   </ol>
               </div>
@@ -104,7 +103,7 @@ class Book extends Component {
                     <BookShelfChanger label={this.props.label}/>
                   </div>
                 <div className="book-title">{this.props.title}</div>
-                <div className="book-authors">{this.props.author}</div>
+                {this.props.author.map(author=><div key={author} className="book-authors">{author}</div>)}
               </div>      
   }
 }
@@ -202,7 +201,6 @@ class SearchResults extends Component {
     return <div className="search-books-results">
               <ol className="books-grid">
               {this.props.books.map((book,index)=>{
-                    console.log(book.imageLinks.thumbnail); 
                     return <li key={index}><Book title={book.title} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
