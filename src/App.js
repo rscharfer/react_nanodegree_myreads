@@ -186,6 +186,7 @@ class SearchPage extends Component{
   updateResults(e){
     const newString = e.target.value;
 
+    // only perform the new api call if the search string is not an empty one
     if (newString){
 
       BooksAPI.search(newString,10).then((books)=>{
@@ -197,6 +198,7 @@ class SearchPage extends Component{
   }
 
   componentDidMount(){
+  	console.log('search page mounted')
     BooksAPI.search(this.state.searchValue,10).then((books)=>{
       
       this.setState({books})
@@ -240,7 +242,7 @@ class SearchResults extends Component {
   render(){
     return <div className="search-books-results">
               <ol className="books-grid">
-              {this.props.books.map((book,index)=>{
+              {this.props.books&&this.props.books.map((book,index)=>{
                     if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
