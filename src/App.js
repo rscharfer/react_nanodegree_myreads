@@ -188,15 +188,26 @@ class SearchPage extends Component{
   }
 
   updateResults(e){
+    console.log('updated results')
     const newString = e.target.value;
+  
 
     // only perform the new api call if the search string is not an empty one
     if (newString){
 
-      BooksAPI.search(newString,10).then((books)=>{
+      let searchPromise = BooksAPI.search(newString,10);
+      let libPromise = BooksAPI.getAll();
 
-      this.setState({books:books})
-    })
+      Promise.all([searchPromise,libPromise]).then(values=>{
+        const [foundBooks,libBooks] = values;
+        foundBooks.forEach(fb=>{
+          libBooks.forEach(lb=>{
+            if (lb.id===fb.id) {fb.shelf = lb.shelf}
+          
+          })
+        })
+        this.setState({books:foundBooks});
+      })
     }
 
     else this.setState({books:[]})
