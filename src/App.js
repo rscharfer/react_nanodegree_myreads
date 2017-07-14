@@ -56,9 +56,9 @@ class BooksApp extends Component {
             <TitleBar/>
             <div className="list-books-content">
               <div>
-                <BookShelf label="Currently Reading" books={this.state.currentlyReadingBooks} refreshBooks={this.refreshBooks}/>
-                <BookShelf label="Want to Read" books={this.state.wantToReadBooks} refreshBooks={this.refreshBooks}/>
-                <BookShelf label="Read" books={this.state.readBooks} refreshBooks={this.refreshBooks}/>
+                <BookShelf header = "Currently Reading" label="currentlyReading" books={this.state.currentlyReadingBooks} refreshBooks={this.refreshBooks}/>
+                <BookShelf header = "Want to Read" label="wantToRead" books={this.state.wantToReadBooks} refreshBooks={this.refreshBooks}/>
+                <BookShelf header = "Read" label="read" books={this.state.readBooks} refreshBooks={this.refreshBooks}/>
               </div>
             </div>
             <div className="open-search">
@@ -88,7 +88,7 @@ class BookShelf extends Component {
   render(){
 
     return <div className="bookshelf">
-            <h2 className="bookshelf-title">{this.props.label}</h2>
+            <h2 className="bookshelf-title">{this.props.header}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {this.props.books.map((book,index)=>{ 
@@ -152,19 +152,7 @@ class BookShelfChanger extends Component {
       
     }
 
-  // getOptionValue(input) {
 
-  //   switch(input){
-  //     case "Currently Reading" : return 'currentlyReading'; break;
-  //     case "Want to Read": return 'wantToRead'; break;
-  //     case "Read": return 'read'; break;
-  //     case "currentlyReading" : return 'currentlyReading'; break;
-  //     case "wantToRead": return 'wantToRead'; break;
-  //     case "read": return 'read'; break;
-  //     case "none": return 'none'; break;
-
-  //   }
-  // }
 
   render () {
 
@@ -193,10 +181,7 @@ class SearchPage extends Component{
 
   updateResults(newString){
     
-   // const newString = e.target.value;
-  
 
-    // only perform the new api call if the search string is not an empty one
     if (newString){
 
       let searchPromise = BooksAPI.search(newString,10);
@@ -206,11 +191,14 @@ class SearchPage extends Component{
       searchPromise.then(values=>{
         
         if (Array.isArray(values)){
+          let inLibrary = false;
+          let lbShelf = '';
            values.forEach(fb=>{
             libBooks.forEach(lb=>{
-            if (lb.id===fb.id) {fb.shelf = lb.shelf}
-
+            if (lb.id===fb.id) inLibrary = true, lbShelf = lb.shelf;
           })
+            if(inLibrary) fb.shelf = lbShelf, inLibrary = false, lbShelf = ''
+            else fb.shelf = 'none';
         })
         this.setState({books:values});
         }
@@ -267,7 +255,7 @@ class SearchResults extends Component {
     return <div className="search-books-results">
               <ol className="books-grid">
               {Array.isArray(this.props.books)&&this.props.books.map((book,index)=>{
-                    if (book.title==="The Code Book: The Secrets Behind Codebreaking") console.log(book);
+                   
                     if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} label={book.shelf} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
