@@ -142,7 +142,7 @@ class BookShelfChanger extends Component {
 
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.getOptionValue = this.getOptionValue.bind(this);
+  //  this.getOptionValue = this.getOptionValue.bind(this);
 
   }
 
@@ -152,25 +152,25 @@ class BookShelfChanger extends Component {
       
     }
 
-  getOptionValue(input) {
+  // getOptionValue(input) {
 
-    switch(input){
-      case "Currently Reading" : return 'currentlyReading'; break;
-      case "Want to Read": return 'wantToRead'; break;
-      case "Read": return 'read'; break;
-      case "currentlyReading" : return 'currentlyReading'; break;
-      case "wantToRead": return 'wantToRead'; break;
-      case "read": return 'read'; break;
-      case "none": return 'none'; break;
+  //   switch(input){
+  //     case "Currently Reading" : return 'currentlyReading'; break;
+  //     case "Want to Read": return 'wantToRead'; break;
+  //     case "Read": return 'read'; break;
+  //     case "currentlyReading" : return 'currentlyReading'; break;
+  //     case "wantToRead": return 'wantToRead'; break;
+  //     case "read": return 'read'; break;
+  //     case "none": return 'none'; break;
 
-    }
-  }
+  //   }
+  // }
 
   render () {
 
     return  <div className="book-shelf-changer">
-              <select value={this.getOptionValue(this.props.label)} onChange={this.handleChange}>
-                <option value="none" disabled>Move to...</option>
+              <select value= {this.props.label} onChange={this.handleChange}>
+                <option value="moveTo" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
                 <option value="read">Read</option>
@@ -188,9 +188,12 @@ class SearchPage extends Component{
     this.updateResults = this.updateResults.bind(this);
   }
 
-  updateResults(e){
+
+
+
+  updateResults(newString){
     
-    const newString = e.target.value;
+   // const newString = e.target.value;
   
 
     // only perform the new api call if the search string is not an empty one
@@ -206,6 +209,7 @@ class SearchPage extends Component{
            values.forEach(fb=>{
             libBooks.forEach(lb=>{
             if (lb.id===fb.id) {fb.shelf = lb.shelf}
+
           })
         })
         this.setState({books:values});
@@ -219,14 +223,10 @@ class SearchPage extends Component{
   }
 
   componentDidMount(){
-  	
-  	if (this.state.searchValue){
-		BooksAPI.search(this.state.searchValue,10).then((books)=>{
-      	this.setState({books})
-    })
-  	}
-   
-    
+
+  	const startValue = this.state.searchValue;
+    this.updateResults(startValue)
+  
   }
 
   render(){
@@ -263,9 +263,11 @@ class SearchResults extends Component {
 
 
   render(){
+
     return <div className="search-books-results">
               <ol className="books-grid">
               {Array.isArray(this.props.books)&&this.props.books.map((book,index)=>{
+                    if (book.title==="The Code Book: The Secrets Behind Codebreaking") console.log(book);
                     if (book.imageLinks) return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} label={book.shelf} url={book.imageLinks.thumbnail}/></li>
                   })}</ol>
             </div>
@@ -287,7 +289,7 @@ class SearchInput extends Component {
 
   handleChange(e){
    this.setState({value:e.target.value});
-   this.props.updateResults(e);
+   this.props.updateResults(e.target.value);
   }
 
 
