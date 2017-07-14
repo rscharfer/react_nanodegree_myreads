@@ -12,5 +12,19 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "name": "reactnd-project-myreads",
+  "description": "*a part of Udacity's React Nanodegree Program*",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udacity/reactnd-project-myreads-starter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/udacity/reactnd-project-myreads-starter/issues"
+  },
+  "homepage": "https://github.com/udacity/reactnd-project-myreads-starter#readme"
 }
