@@ -13,7 +13,7 @@ class BooksApp extends Component {
   	// every BooksApp instance has a state defining the books on each shelf
   	// every BooksApp also has a refresh books function
     super(props);
-    this.state = {wantToReadBooks:[],readBooks:[],currentlyReadingBooks:[]};
+    this.state = {wantToReadBooks:[],readBooks:[],currentlyReadingBooks:[], allBooks:[]};
     this.refreshBooks = this.refreshBooks.bind(this);
     
 
@@ -23,7 +23,7 @@ class BooksApp extends Component {
   componentDidMount(){
 
   	  // the refresh books function is called for the first time when the BooksApp is mounted
-  	  console.log('BooksApp is mounted')
+  	  
       this.refreshBooks();
   }
 
@@ -34,6 +34,7 @@ class BooksApp extends Component {
     BooksAPI.getAll().then(books=>{
 
       this.setState({
+        allBooks:books,
         wantToReadBooks : books.filter(book=>book.shelf==="wantToRead"),
         readBooks : books.filter(book=>book.shelf==="read"),
         currentlyReadingBooks : books.filter(book=>book.shelf==="currentlyReading")
@@ -43,12 +44,12 @@ class BooksApp extends Component {
 
   render() {
 
-  	console.log('Books App is rendered')
+  	
     return (
       <div className="app">
 
 
-      <Route path="/search" render = {()=>(<SearchPage refreshBooks={this.refreshBooks}/>)}/>
+      <Route path="/search" render = {()=>(<SearchPage refreshBooks={this.refreshBooks} allBooks={this.state.allBooks}/>)}/>
 
         <Route path="/" exact render={()=>(
           <div className="list-books">
@@ -188,7 +189,7 @@ class SearchPage extends Component{
   }
 
   updateResults(e){
-    console.log('updated results')
+    
     const newString = e.target.value;
   
 
@@ -196,17 +197,20 @@ class SearchPage extends Component{
     if (newString){
 
       let searchPromise = BooksAPI.search(newString,10);
-      let libPromise = BooksAPI.getAll();
+      let libBooks = this.props.allBooks;
 
-      Promise.all([searchPromise,libPromise]).then(values=>{
-        const [foundBooks,libBooks] = values;
-        foundBooks.forEach(fb=>{
-          libBooks.forEach(lb=>{
+
+      searchPromise.then(values=>{
+        
+        if (Array.isArray(values)){
+           values.forEach(fb=>{
+            libBooks.forEach(lb=>{
             if (lb.id===fb.id) {fb.shelf = lb.shelf}
-          
           })
         })
-        this.setState({books:foundBooks});
+        this.setState({books:values});
+        }
+        else this.setState({books:[]})
       })
     }
 
