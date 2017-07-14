@@ -10,25 +10,18 @@ class BooksApp extends Component {
  
   constructor(props){
 
-  	// every BooksApp instance has a state defining the books on each shelf
-  	// every BooksApp also has a refresh books function
     super(props);
     this.state = {wantToReadBooks:[],readBooks:[],currentlyReadingBooks:[], allBooks:[]};
     this.refreshBooks = this.refreshBooks.bind(this);
-    
-
-
   }
 
   componentDidMount(){
 
-  	  // the refresh books function is called for the first time when the BooksApp is mounted
-  	  
       this.refreshBooks();
   }
 
 
-  // the refresh books function makes an BooksAPI call and resets the state
+
   refreshBooks(){
 
     BooksAPI.getAll().then(books=>{
@@ -143,7 +136,7 @@ class BookShelfChanger extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.state = {selectValue:this.props.label}
-  //  this.getOptionValue = this.getOptionValue.bind(this);
+  
 
   }
 
