@@ -1,3 +1,8 @@
+import React from 'react';
+import { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+import BookShelfChanger from './BookShelfChanger.js'
+
 class Book extends Component {
 
   constructor(props){
