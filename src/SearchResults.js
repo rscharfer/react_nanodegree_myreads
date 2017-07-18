@@ -12,24 +12,22 @@ class SearchResults extends Component {
 
   render(){
 
+    const uniqueIDs = [];
+    let isUnique = false;
+    let uniqueBooks; 
+    if(Array.isArray(this.props.books)) uniqueBooks = this.props.books.filter((book)=>(isUnique = !uniqueIDs.includes(book.id), uniqueIDs.push(book.id), isUnique))
+
+
     return <div className="search-books-results">
               <ol className="books-grid">
-              {Array.isArray(this.props.books)&&this.props.books.map((book,index)=>{
-                    function makeid() {
-                      // from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-                      var text = "";
-                      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-                      for (var i = 0; i < 5; i++)
-                        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-                          return text;
-                    }
+              {
+                Array.isArray(this.props.books)&&uniqueBooks.map((book,index)=>{
                     if (book.imageLinks) {
 
-                      return <li key={makeid()}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} label={book.shelf} url={book.imageLinks.thumbnail}/></li>
+                      return <li key={book.id}><Book id={book.id} title={book.title} refreshBooks = {this.props.refreshBooks} author={book.authors} label={book.shelf} url={book.imageLinks.thumbnail}/></li>
                     } 
                   })}</ol>
+              
             </div>
   }
 }
