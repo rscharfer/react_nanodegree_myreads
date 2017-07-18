@@ -14,7 +14,7 @@ class Book extends Component {
   changeShelf(newShelf){
 
     this.setState({shelf:newShelf});
-    BooksAPI.update({id:this.props.id},newShelf).then((data)=>this.props.refreshBooks());
+    BooksAPI.update({id:this.props.id},newShelf).then(()=>this.props.refreshBooks());
 
   }
 
