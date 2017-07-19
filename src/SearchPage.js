@@ -19,8 +19,9 @@ class SearchPage extends Component{
   updateResults(newString){
     
 
-    if (newString){
 
+    if (newString){
+      console.log(`update results called with ${newString}`)
       let searchPromise = BooksAPI.search(newString,10);
       let libBooks = this.props.allBooks;
 

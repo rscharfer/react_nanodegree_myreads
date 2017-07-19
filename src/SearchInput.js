@@ -8,6 +8,8 @@ class SearchInput extends Component {
     super(props);
     
     this.handleChange = this.handleChange.bind(this);
+
+    this.delayedCallback = debounce(500,(v)=>{this.props.updateResults(v);})
   }
 
   render(){
@@ -15,11 +17,11 @@ class SearchInput extends Component {
     return <input type="text" onChange={this.handleChange} placeholder="Search by title or author"/> 
   }
 
-  componentWillMount(){
+  // componentWillMount(){
 
-    this.delayedCallback = debounce(500,(v)=>{this.props.updateResults(v);})
+  //   this.delayedCallback = debounce(500,(v)=>{this.props.updateResults(v);})
 
-  }
+  // }
 
   handleChange(e){
    e.persist();
