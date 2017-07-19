@@ -1,22 +1,30 @@
 import React from 'react';
 import { Component } from 'react';
+import debounce from 'lodash/fp/debounce.js'
 
 
 class SearchInput extends Component {
   constructor(props){
     super(props);
-    this.state = {value:''}
+    
     this.handleChange = this.handleChange.bind(this);
   }
 
   render(){
     
-    return <input type="text" onChange={this.handleChange} value={this.state.value} placeholder="Search by title or author"/> 
+    return <input type="text" onChange={this.handleChange} placeholder="Search by title or author"/> 
+  }
+
+  componentWillMount(){
+
+    this.delayedCallback = debounce(500,(v)=>{this.props.updateResults(v);})
+
   }
 
   handleChange(e){
-   this.setState({value:e.target.value});
-   this.props.updateResults(e.target.value);
+   e.persist();
+   this.delayedCallback(e.target.value)
+   
   }
 
 
